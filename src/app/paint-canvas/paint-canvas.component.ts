@@ -146,8 +146,9 @@ export class PaintCanvasComponent implements AfterViewInit {
     document.body.classList.toggle("dark-theme")
   }
 
-  onBrushChange() {
-    this.updateBrushPreview()
+  onBrushChange(newBrushType: string) {
+    this.currentBrushType = newBrushType;
+    this.updateBrushPreview();
   }
 }
 
