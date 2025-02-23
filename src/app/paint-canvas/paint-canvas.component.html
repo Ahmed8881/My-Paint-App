@@ -1,1 +1,38 @@
 <p>paint-canvas works!</p>
+<div class="paint-container">
+    <div class="controls">
+      <div class="control-group">
+        <label for="color">Color:</label>
+        <input 
+          type="color" 
+          id="color" 
+          [(ngModel)]="brushColor"
+          class="color-picker">
+      </div>
+      
+      <div class="control-group">
+        <label for="size">Brush Size:</label>
+        <input 
+          type="range" 
+          id="size" 
+          [(ngModel)]="brushSize"
+          min="1" 
+          max="50" 
+          class="size-slider">
+        <span class="size-value">{{brushSize}}px</span>
+      </div>
+      
+      <button 
+        class="clear-btn"
+        (click)="clearCanvas()">
+        Clear Canvas
+      </button>
+    </div>
+  
+    <canvas #canvas
+      (mousedown)="startDrawing($event)"
+      (mousemove)="draw($event)"
+      (mouseup)="stopDrawing()"
+      (mouseout)="stopDrawing()">
+    </canvas>
+  </div>
