@@ -1,3 +1,7 @@
+*{
+  padding: 0;
+  margin: 0;
+}
 .paint-container {
   display: flex;
   flex-direction: column;
@@ -6,15 +10,15 @@
   background: var(--bg-color);
   transition: all 0.3s ease;
   
-  --bg-color: linear-gradient(135deg, #f6f7ff 0%, #ffffff 100%);
-  --text-color: #1a1a1a;
-  --toolbar-bg: rgba(255, 255, 255, 0.9);
-  --button-hover: #e0e0e0;
-  --border-color: #e2e8f0;
-  --accent-color: #6366f1;
-  --accent-hover: #4f46e5;
+  --bg-color: radial-gradient(circle at 50% 50%, #1a1b4b 0%, #090a2c 50%, #050518 100%);
+  --text-color: #ffffff;
+  --toolbar-bg: rgba(13, 14, 45, 0.85);
+  --button-hover: rgba(30, 32, 70, 0.9);
+  --border-color: rgba(138, 180, 255, 0.2);
+  --accent-color: #00f7ff;
+  --accent-hover: #66faff;
+  --star-color: rgba(255, 255, 255, 0.8);
 
-  
   &.dark-theme {
     --bg-color: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     --text-color: #ffffff;
