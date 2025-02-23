@@ -1,13 +1,13 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+
 @Component({
   selector: 'app-paint-canvas',
-  templateUrl: './paint-canvas.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [],
+  templateUrl: './paint-canvas.component.html',
+  styleUrl: './paint-canvas.component.scss'
 })
-export class PaintCanvasComponent implements AfterViewInit {
+export class PaintCanvasComponent {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   
   private ctx!: CanvasRenderingContext2D;
