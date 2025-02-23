@@ -1,45 +1,128 @@
 <div class="paint-container" [class.dark-theme]="isDarkMode">
-    <div class="toolbar" [@toolbarAnimation]>
-      <div class="toolbar-section">
-        <div class="control-group">
-          <label for="color">Color</label>
+  <div class="toolbar" [@toolbarAnimation]>
+    <div class="toolbar-section">
+      <div class="control-group">
+        <label for="color">Brush Color</label>
+        <div class="color-controls">
           <input 
             type="color" 
             id="color" 
             [(ngModel)]="brushColor"
-            (ngModelChange)="onBrushChange()"
+            (ngModelChange)="onBrushChange($event)"
+            class="color-picker">
+          <span class="color-value">{{brushColor}}</span>
+        </div>
+      </div>
+      
+      <div class="control-group" *ngIf="currentBrushType === 'gradient'">
+        <label>Gradient Colors</label>
+        <div class="gradient-controls">
+          <input 
+            type="color" 
+            [(ngModel)]="gradientColors[0]"
+            (ngModelChange)="onBrushChange($event)"
+            class="color-picker">
+          <input 
+            type="color" 
+            [(ngModel)]="gradientColors[1]"
+            (ngModelChange)="onBrushChange($event)"
             class="color-picker">
         </div>
-        
-        <div class="control-group">
-          <label for="size">Brush Size</label>
+      </div>
+      
+      <div class="control-group">
+        <label for="size">Brush Size</label>
+        <div class="size-controls">
           <input 
             type="range" 
             id="size" 
             [(ngModel)]="brushSize"
-            (ngModelChange)="onBrushChange()"
+            (ngModelChange)="onBrushChange($event)"
             min="1" 
             max="50" 
             class="size-slider">
           <span class="size-value">{{brushSize}}px</span>
         </div>
-  
-        <div class="control-group">
-          <label for="brushType">Brush Type</label>
-          <select 
-            id="brushType" 
-            [(ngModel)]="currentBrushType"
-            class="brush-select">
-            <option value="round">Round</option>
-            <option value="square">Square</option>
-            <option value="butt">Flat</option>
-          </select>
-        </div>
-  
-        <canvas #brushPreview class="brush-preview"></canvas>
       </div>
-  
-      <div class="toolbar-section">
+
+      <div class="control-group">
+        <label for="opacity">Opacity</label>
+        <div class="opacity-controls">
+          <input 
+            type="range" 
+            id="opacity" 
+            [(ngModel)]="opacity"
+            (ngModelChange)="onBrushChange($event)"
+            min="0.1" 
+            max="1" 
+            step="0.1"
+            class="opacity-slider">
+          <span class="opacity-value">{{opacity * 100}}%</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="brushType">Brush Type</label>
+        <select 
+          id="brushType" 
+          [(ngModel)]="currentBrushType"
+          (ngModelChange)="onBrushChange($event)"
+          class="brush-select">
+          <option value="round">Round</option>
+          <option value="square">Square</option>
+          <option value="butt">Flat</option>
+          <option value="gradient">Gradient</option>
+        </select>
+      </div>
+
+      <canvas #brushPreview class="brush-preview"></canvas>
+    </div>
+
+    <div class="toolbar-section">
+      <div class="filter-controls">
+        <div class="control-group">
+          <label for="blur">Blur</label>
+          <input 
+            type="range" 
+            id="blur" 
+            [(ngModel)]="filters.blur"
+            (ngModelChange)="applyFilters()"
+            min="0" 
+            max="10" 
+            step="0.5"
+            class="filter-slider">
+        </div>
+        <div class="control-group">
+          <label for="brightness">Brightness</label>
+          <input 
+            type="range" 
+            id="brightness" 
+            [(ngModel)]="filters.brightness"
+            (ngModelChange)="applyFilters()"
+            min="0" 
+            max="200"
+            class="filter-slider">
+        </div>
+        <div class="control-group">
+          <label for="contrast">Contrast</label>
+          <input 
+            type="range" 
+            id="contrast" 
+            [(ngModel)]="filters.contrast"
+            (ngModelChange)="applyFilters()"
+            min="0" 
+            max="200"
+            class="filter-slider">
+        </div>
+        <button 
+          class="tool-btn reset-btn"
+          (click)="resetFilters()"
+          title="Reset Filters">
+          🔄
+        </button>
+      </div>
+      
+      <div class="action-buttons">
         <button 
           class="tool-btn undo-btn" 
           (click)="undo()"
@@ -72,15 +155,14 @@
         </button>
       </div>
     </div>
-  
-    <div class="canvas-container" [@fadeIn]>
-      <canvas #canvas
-        (mousedown)="startDrawing($event)"
-        (mousemove)="draw($event)"
-        (mouseup)="stopDrawing()"
-        (mouseout)="stopDrawing()">
-      </canvas>
-    </div>
   </div>
-  
-  
+
+  <div class="canvas-container" [@fadeIn]>
+    <canvas #canvas
+      (mousedown)="startDrawing($event)"
+      (mousemove)="draw($event)"
+      (mouseup)="stopDrawing()"
+      (mouseout)="stopDrawing()">
+    </canvas>
+  </div>
+</div>
