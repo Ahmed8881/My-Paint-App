@@ -1,7 +1,8 @@
-import { type AfterViewInit, Component, type ElementRef, ViewChild } from "@angular/core"
+import { type AfterViewInit, Component, type ElementRef, Inject, PLATFORM_ID, ViewChild } from "@angular/core"
 import { ReactiveFormsModule } from "@angular/forms"
 import { FormsModule } from "@angular/forms"
 import { trigger, transition, style, animate } from "@angular/animations"
+import { isPlatformBrowser } from "@angular/common"
 
 @Component({
   selector: "app-paint-canvas",
@@ -24,6 +25,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
 export class PaintCanvasComponent implements AfterViewInit {
   @ViewChild("canvas") canvasRef!: ElementRef<HTMLCanvasElement>
   @ViewChild("brushPreview") brushPreviewRef!: ElementRef<HTMLCanvasElement>
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   private ctx!: CanvasRenderingContext2D
   private previewCtx!: CanvasRenderingContext2D
@@ -40,17 +42,19 @@ export class PaintCanvasComponent implements AfterViewInit {
   public currentBrushType = "round"
 
   ngAfterViewInit() {
-    const canvas = this.canvasRef.nativeElement
-    const previewCanvas = this.brushPreviewRef.nativeElement
+    if (isPlatformBrowser(this.platformId)) {
+      const canvas = this.canvasRef.nativeElement;
+      const previewCanvas = this.brushPreviewRef.nativeElement;
 
-    this.ctx = canvas.getContext("2d")!
-    this.previewCtx = previewCanvas.getContext("2d")!
+      this.ctx = canvas.getContext("2d")!;
+      this.previewCtx = previewCanvas.getContext("2d")!;
 
-    this.resizeCanvas()
-    this.updateBrushPreview()
+      this.resizeCanvas();
+      this.updateBrushPreview();
 
-    window.addEventListener("resize", () => this.resizeCanvas())
-    this.saveState() // Save initial blank state
+      window.addEventListener("resize", () => this.resizeCanvas());
+      this.saveState(); // Save initial blank state
+    }
   }
 
   private resizeCanvas() {
