@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-paint-canvas',
@@ -7,7 +7,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   templateUrl: './paint-canvas.component.html',
   styleUrl: './paint-canvas.component.scss'
 })
-export class PaintCanvasComponent {
+export class PaintCanvasComponent implements AfterViewInit  {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   
   private ctx!: CanvasRenderingContext2D;
